@@ -18,7 +18,7 @@
 			href={resolve('/')}
 			class="
         block px-8 py-2 text-4xl font-bold text-white no-underline shadow-lg transition
-         hover:bg-red-800
+         hover:bg-slate-800
       "
 		>
 			Blog

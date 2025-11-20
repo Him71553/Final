@@ -1,33 +1,31 @@
+
 import type { PageLoad } from './$types';
 
-interface PostMetadata {
-	title: string;
-	date: string;
-	excerpt: string;
-}
 
 export interface Post {
-	metadata: PostMetadata;
-	slug: string;
+	id: number;
+	title: string;
+	content: string; 
+	created_at: string; 
 }
 
-export const load: PageLoad = async () => {
-	const postFiles = import.meta.glob<true, string, { metadata: PostMetadata }>(
-		'/src/lib/posts/*.md',
-		{ eager: true }
-	);
+export const load: PageLoad = async ({ fetch }) => {
+	try {
+		const res = await fetch('http://127.0.0.1:8000/posts');//API
 
-	const posts: Post[] = Object.entries(postFiles)
-		.map(([path, module]) => {
-			const slug = path.split('/').pop()?.replace('.md', '') ?? '';
+		if (!res.ok) {
+			throw new Error('無法取得文章列表');
+		}
 
-			return {
-				metadata: module.metadata,
-				slug: slug
-			};
-		})
-		.sort((a, b) => new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime());
-	return {
-		posts: posts
-	};
+		const posts: Post[] = await res.json();
+
+		return {
+			posts
+		};
+	} catch (err) {
+		console.error(err);
+		return {
+			posts: []
+		};
+	}
 };
