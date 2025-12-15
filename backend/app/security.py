@@ -1,6 +1,6 @@
 import bcrypt
-import os
 from jose import jwt
+from .main import config
 
 
 def hash_password(password: str):
@@ -9,7 +9,7 @@ def hash_password(password: str):
 
 def verify_jwt_token(token: str):
 	try:
-		payload = jwt.decode(token, os.getenv("JWT_SECRET"), algorithms=["HS256"])
+		payload = jwt.decode(token, config.JWT_SECRET, algorithms=["HS256"])
 		return payload
 	except:
 		return None
