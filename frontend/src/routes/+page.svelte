@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import { fly, fade } from 'svelte/transition';
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 

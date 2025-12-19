@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
-	import { page } from '$app/stores';
 	import '../app.css';
 	import { fade } from 'svelte/transition';
-	// 修改: 從共用檔案引入 user
+	import { resolve } from '$app/paths';
 	import { user } from '$lib/stores';
 
 	function handleLogout() {
@@ -29,8 +27,10 @@
 				>
 					<span class="text-lg font-bold">B</span>
 				</div>
+
 				<span class="text-xl font-bold tracking-tight text-slate-800 dark:text-white">
-					Dev<span class="text-blue-600">Blog</span>
+					Dev
+					<span class="text-blue-600">Blog</span>
 				</span>
 			</a>
 
@@ -48,6 +48,7 @@
 								d="M12 4v16m8-8H4"
 							/>
 						</svg>
+
 						<span>發表文章</span>
 					</a>
 				{/if}
@@ -65,6 +66,7 @@
 								>
 									{$user.username.substring(0, 1).toUpperCase()}
 								</div>
+
 								<span
 									class="max-w-[80px] truncate text-sm font-medium text-slate-700 dark:text-slate-200"
 								>
@@ -72,6 +74,7 @@
 								</span>
 							</div>
 						</div>
+
 						<!-- svelte-ignore a11y_consider_explicit_label -->
 						<button
 							on:click={handleLogout}
@@ -95,6 +98,7 @@
 						>
 							登入
 						</a>
+
 						<a
 							href={resolve('/register')}
 							class="rounded-md bg-blue-600 px-4 py-1.5 text-sm font-medium text-white shadow-md shadow-blue-500/20 transition hover:bg-blue-700 hover:shadow-lg"
