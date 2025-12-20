@@ -37,7 +37,7 @@ async function send<T>(
 export const api = {
 	auth: {
 		register: (data: { username: string; password: string }) =>
-			send<User>('POST', '/auth/register', data),
+			send<void>('POST', '/auth/register', data),
 		login: (data: { username: string; password: string }) => send<User>('POST', '/auth/login', data)
 	},
 	posts: {
