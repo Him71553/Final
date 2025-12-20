@@ -1,11 +1,13 @@
 <script lang="ts">
+	import { onMount, getContext } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { resolve } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { api } from '$lib/api';
-	import { user } from '$lib/stores';
+	import { USER_KEY, type UserState } from '$lib/user.svelte';
 	import LoadingOverlay from '$lib/components/LoadingOverlay.svelte';
 
+	const userState = getContext<UserState>(USER_KEY);
 	let username = '';
 	let password = '';
 
@@ -21,11 +23,17 @@
 		isLoading = true;
 		isLoading = false;
 		const res = await api.auth.login({ username, password });
-		$user = res.data;
+		userState.update(res.data);
 		isLoading = false;
 		isNavigating = true;
 		goto('/');
 	}
+
+	onMount(() => {
+		if (userState.isLoggedIn()) {
+			goto('/');
+		}
+	});
 </script>
 
 {#if isNavigating}
