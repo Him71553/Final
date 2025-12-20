@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, getContext } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { resolve } from '$app/paths';
 	import { goto } from '$app/navigation';
-	import { user } from '$lib/stores';
+	import { api } from '$lib/api';
+	import { USER_KEY, type UserState } from '$lib/user.svelte';
 	import LoadingOverlay from '$lib/components/LoadingOverlay.svelte';
 
+	const userState = getContext<UserState>(USER_KEY);
 	let title = '';
 	let content = '';
 	let imageUrl = '';
@@ -15,7 +17,7 @@
 	let isNavigating = false;
 
 	onMount(() => {
-		if (!$user) {
+		if (!userState.isLoggedIn()) {
 			goto('/login');
 		}
 	});
@@ -26,8 +28,7 @@
 		}
 
 		isLoading = true;
-		console.log('User ID:', $user?.username);
-
+		await api.posts.create({ title, content, owner_id: userState.current!.id });
 		isLoading = false;
 		isNavigating = true;
 		goto('/');
@@ -41,7 +42,7 @@
 {/if}
 
 <div class="min-h-screen px-4 py-10 sm:px-6 lg:py-12">
-	{#if $user}
+	{#if userState.isLoggedIn()}
 		<div class="mx-auto max-w-4xl" in:fade>
 			<div class="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
 				<div>

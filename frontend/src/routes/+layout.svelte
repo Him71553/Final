@@ -1,11 +1,17 @@
 <script lang="ts">
 	import '../app.css';
+	import { setContext } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { resolve } from '$app/paths';
-	import { user } from '$lib/stores';
+	import { UserState, USER_KEY } from '$lib/user.svelte';
+
+	let { data, children } = $props();
+	const userState = new UserState(data.data);
+
+	setContext(USER_KEY, userState);
 
 	function handleLogout() {
-		$user = null;
+		userState.logout();
 	}
 </script>
 
@@ -35,7 +41,7 @@
 			</a>
 
 			<div class="flex items-center gap-3 sm:gap-4">
-				{#if $user}
+				{#if userState.isLoggedIn()}
 					<a
 						href={resolve('/post')}
 						class="hidden items-center gap-2 rounded-full bg-slate-900 px-4 py-1.5 text-sm font-medium text-white transition-all hover:bg-slate-700 hover:shadow-lg sm:flex dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
@@ -55,7 +61,7 @@
 
 				<div class="h-6 w-px bg-slate-200 dark:bg-slate-700"></div>
 
-				{#if $user}
+				{#if userState.isLoggedIn()}
 					<div class="flex items-center gap-3">
 						<div class="group relative">
 							<div
@@ -64,20 +70,20 @@
 								<div
 									class="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-xs font-bold text-white shadow-sm"
 								>
-									{$user.username.substring(0, 1).toUpperCase()}
+									{userState.current.username.substring(0, 1).toUpperCase()}
 								</div>
 
 								<span
 									class="max-w-[80px] truncate text-sm font-medium text-slate-700 dark:text-slate-200"
 								>
-									{$user.username}
+									{userState.current.username}
 								</span>
 							</div>
 						</div>
 
 						<!-- svelte-ignore a11y_consider_explicit_label -->
 						<button
-							on:click={handleLogout}
+							onclick={handleLogout}
 							class="rounded-md p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-red-600 dark:text-slate-400 dark:hover:bg-slate-800"
 						>
 							<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -113,7 +119,7 @@
 
 	<main class="relative z-10 mx-auto w-full max-w-5xl flex-1 px-4 py-8 sm:px-6 lg:py-12">
 		<div in:fade={{ duration: 200 }}>
-			<slot />
+			{@render children()}
 		</div>
 	</main>
 
