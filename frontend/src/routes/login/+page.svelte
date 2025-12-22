@@ -21,12 +21,17 @@
 		}
 
 		isLoading = true;
-		isLoading = false;
-		const res = await api.auth.login({ username, password });
-		userState.update(res.data);
-		isLoading = false;
-		isNavigating = true;
-		goto('/');
+		try {
+			const res = await api.auth.login({ username, password });
+
+			userState.update(res.data);
+			isNavigating = true;
+			await goto('/');
+		} catch (err) {
+			console.error(err);
+		} finally {
+			isLoading = false;
+		}
 	}
 
 	onMount(() => {
