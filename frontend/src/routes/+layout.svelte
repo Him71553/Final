@@ -11,7 +11,11 @@
 	setContext(USER_KEY, userState);
 
 	function handleLogout() {
-		userState.logout();
+		try {
+			userState.logout();
+		} catch (err) {
+			console.error(err);
+		}
 	}
 </script>
 
