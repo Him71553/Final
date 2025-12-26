@@ -43,7 +43,10 @@ export const api = {
 		logout: () => send<void>('POST', '/auth/logout')
 	},
 	user: {
-		me: () => send<User>('GET', '/user/me')
+		me: () => send<User>('GET', '/user/me'),
+		getMyPosts: () => send<Post[]>('GET', '/user/me/posts'),
+		getUser: (id: number) => send<User>('GET', `/user/${id}`),
+		getUserPosts: (id: number) => send<Post[]>('GET', `/user/${id}/posts`)
 	},
 	posts: {
 		list: (page: number) => send<Post[]>('GET', `/posts/?page=${page}`),
