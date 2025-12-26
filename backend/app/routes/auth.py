@@ -2,7 +2,7 @@ from typing import Any
 from datetime import datetime, timedelta
 from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy.orm import Session
-from ..schemas import UserCreate
+from ..schemas import UserCreate, UserLogin
 from ..database import get_db
 from ..models import User
 from ..security import hash_password, verify_password, generate_jwt_token
@@ -13,7 +13,7 @@ router = APIRouter()
 
 @router.post("/login")
 async def user_login(
-	data: UserCreate, response: Response, db: Session = Depends(get_db)
+	data: UserLogin, response: Response, db: Session = Depends(get_db)
 ):
 	data_dict = data.model_dump()
 	username = data_dict["username"]
