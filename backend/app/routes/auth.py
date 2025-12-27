@@ -1,5 +1,5 @@
 from typing import Any
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy.orm import Session
 from ..schemas import UserCreate, UserLogin
@@ -28,7 +28,7 @@ async def user_login(
 		response.status_code = status.HTTP_401_UNAUTHORIZED
 		return {"message": "Invalid password"}
 
-	token_exp = datetime.now() + timedelta(hours=1)
+	token_exp = datetime.now(timezone.utc) + timedelta(hours=1)
 	jwt_claims = {"sub": user.id, "exp": token_exp}
 	token = generate_jwt_token(jwt_claims)
 	if not token:
