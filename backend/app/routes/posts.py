@@ -71,7 +71,7 @@ async def edit_post(
 	if not post:
 		response.status_code = status.HTTP_404_NOT_FOUND
 		return {"message": "Post not found"}
-	if post.owner_id != jwt_payload["user_id"]:
+	if post.owner_id != jwt_payload["sub"]:
 		response.status_code = status.HTTP_403_FORBIDDEN
 		return {"message": "You are not authorized to edit this post"}
 
@@ -94,7 +94,7 @@ async def delete_post(
 	if not post:
 		response.status_code = status.HTTP_404_NOT_FOUND
 		return {"message": "Post not found"}
-	if post.owner_id != jwt_payload["user_id"]:
+	if post.owner_id != jwt_payload["sub"]:
 		response.status_code = status.HTTP_403_FORBIDDEN
 		return {"message": "You are not authorized to delete this post"}
 
