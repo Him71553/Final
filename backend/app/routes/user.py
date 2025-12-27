@@ -16,7 +16,7 @@ async def read_current_user(
 	db: Session = Depends(get_db),
 ):
 	try:
-		user = db.query(User).filter(User.id == jwt_payload["user_id"]).first()
+		user = db.query(User).filter(User.id == jwt_payload["sub"]).first()
 		if not user:
 			response.status_code = status.HTTP_404_NOT_FOUND
 			return {"message": "User not found"}
@@ -35,7 +35,7 @@ async def read_current_user_posts(
 	db: Session = Depends(get_db),
 ):
 	try:
-		posts = db.query(Post).filter(Post.owner_id == jwt_payload["user_id"]).all()
+		posts = db.query(Post).filter(Post.owner_id == jwt_payload["sub"]).all()
 
 		return {"message": "Successfully fetched user's posts", "data": posts}
 	except SQLAlchemyError as e:

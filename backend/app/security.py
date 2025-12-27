@@ -11,12 +11,20 @@ def verify_jwt_token(token: str):
 	try:
 		payload = jwt.decode(token, config.JWT_SECRET, algorithms=["HS256"])
 		return payload
-	except:
+	except Exception as e:
+		print(e)
 		return None
-def verify_password(password: str,hash: str):
-	return bcrypt.checkpw(password,hash)
-def generate_jwt_token(data:dict):
+
+
+def verify_password(password: str, hash: str):
+	pwd_bytes = password.encode("utf-8")
+	hash_bytes = hash.encode("utf-8")
+	return bcrypt.checkpw(pwd_bytes, hash_bytes)
+
+
+def generate_jwt_token(data: dict):
 	try:
-		return jwt.encode(data,config.JWT_SECRET,algorithm='HS256')
-	except:
+		return jwt.encode(data, config.JWT_SECRET, algorithm="HS256")
+	except Exception as e:
+		print(e)
 		return None

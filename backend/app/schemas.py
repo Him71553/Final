@@ -7,7 +7,11 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-	password: str = Field(..., min_length=6, max_length=50)
+	password: str = Field(..., min_length=4, max_length=50)
+
+
+class UserLogin(UserBase):
+	password: str = Field(..., min_length=4, max_length=50)
 
 
 class PostBase(BaseModel):
