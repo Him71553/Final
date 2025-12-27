@@ -19,14 +19,10 @@ async def user_login(
 	username = data_dict["username"]
 	password = data_dict["password"]
 	user = db.query(User).where(User.name == username).first()
-	if not user:
-		response.status_code = status.HTTP_404_NOT_FOUND
-		return {"message": "User not found"}
-
-	correct_password = verify_password(password, user.hashed_pwd)
-	if not correct_password:
+	correct_password = verify_password(password, user.hashed_pwd) if user else False  # type: ignore
+	if not user or not correct_password:
 		response.status_code = status.HTTP_401_UNAUTHORIZED
-		return {"message": "Invalid password"}
+		return {"message": "Invalid username or password"}
 
 	token_exp = datetime.now(timezone.utc) + timedelta(hours=1)
 	jwt_claims = {"sub": user.id, "exp": token_exp}
