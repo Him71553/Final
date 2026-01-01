@@ -11,6 +11,7 @@ interface Post {
 	content: string;
 	created_at: string;
 	owner_id: number;
+	username: string;
 }
 
 async function send<T>(
@@ -49,9 +50,12 @@ export const api = {
 		getUserPosts: (id: number) => send<Post[]>('GET', `/user/${id}/posts`)
 	},
 	posts: {
-		list: (page: number) => send<Post[]>('GET', `/posts/?page=${page}`),
-		create: (data: Omit<Post, 'id' | 'created_at'>) => send<Post>('POST', '/posts', data),
-		edit: (id: number, data: Partial<Omit<Post, 'id' | 'created_at'>>) =>
+		list: (page: number) =>
+			send<Omit<Post, 'content' | 'owner_id'>[]>('GET', `/posts/?page=${page}`),
+		getById: (id: number) => send<Post>('GET', `/posts/${id}`),
+		create: (data: Omit<Post, 'id' | 'created_at' | 'username'>) =>
+			send<Post>('POST', '/posts', data),
+		edit: (id: number, data: Partial<Pick<Post, 'title' | 'content'>>) =>
 			send<Post>('PUT', `/posts/${id}`, data),
 		delete: (id: number) => send<void>('DELETE', `/posts/${id}`)
 	}
