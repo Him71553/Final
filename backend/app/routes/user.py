@@ -25,7 +25,10 @@ async def read_current_user(
 			response.status_code = status.HTTP_404_NOT_FOUND
 			return {"message": "User not found"}
 
-		return {"message": "Successfully fetched user data", "data": user}
+		return {
+			"message": "Successfully fetched user data",
+			"data": {"id": user[0], "username": user[1]},
+		}
 	except SQLAlchemyError as e:
 		print(e)
 		response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -56,7 +59,10 @@ async def read_user_by_id(id: int, response: Response, db: Session = Depends(get
 			response.status_code = status.HTTP_404_NOT_FOUND
 			return {"message": "User not found"}
 
-		return {"message": "Successfully fetched user data", "data": user}
+		return {
+			"message": "Successfully fetched user data",
+			"data": {"id": user[0], "username": user[1]},
+		}
 	except SQLAlchemyError as e:
 		print(e)
 		response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
