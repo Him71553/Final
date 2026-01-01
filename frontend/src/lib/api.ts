@@ -53,7 +53,7 @@ export const api = {
 		list: (page: number) =>
 			send<Omit<Post, 'content' | 'owner_id'>[]>('GET', `/posts/?page=${page}`),
 		getById: (id: number) => send<Post>('GET', `/posts/${id}`),
-		create: (data: Omit<Post, 'id' | 'created_at' | 'username'>) =>
+		create: (data: Pick<Post, 'title' | 'content' | 'owner_id'>) =>
 			send<Post>('POST', '/posts', data),
 		edit: (id: number, data: Partial<Pick<Post, 'title' | 'content'>>) =>
 			send<Post>('PUT', `/posts/${id}`, data),
