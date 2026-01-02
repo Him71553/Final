@@ -174,7 +174,7 @@
 					</form>
 				{:else}
 					<div in:fade={{ duration: 200 }} class="p-8 sm:p-10">
-						<article class="prose prose-slate dark:prose-invert max-w-none">
+						<article class="prose max-w-none prose-slate dark:prose-invert">
 							<h1 class="mb-4 text-3xl font-bold text-slate-900 sm:text-4xl dark:text-white">
 								{title || '無標題'}
 							</h1>

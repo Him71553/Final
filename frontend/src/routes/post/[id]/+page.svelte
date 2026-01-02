@@ -75,11 +75,11 @@
 
 		<div class="px-8 py-12 sm:px-12">
 			<div
-				class="prose prose-lg prose-slate dark:prose-invert prose-headings:font-bold
-        prose-headings:tracking-tight prose-headings:text-slate-900 dark:prose-headings:text-white prose-a:text-blue-600
-        dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline prose-img:rounded-2xl
-        prose-img:shadow-md prose-pre:bg-slate-900
-        prose-pre:shadow-lg dark:prose-pre:bg-slate-950/50 dark:prose-pre:border dark:prose-pre:border-slate-800 max-w-none"
+				class="prose prose-lg max-w-none prose-slate dark:prose-invert
+        prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-slate-900 dark:prose-headings:text-white
+        prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline dark:prose-a:text-blue-400
+        prose-pre:bg-slate-900 prose-pre:shadow-lg
+        dark:prose-pre:border dark:prose-pre:border-slate-800 dark:prose-pre:bg-slate-950/50 prose-img:rounded-2xl prose-img:shadow-md"
 			>
 				{@html post.html}
 			</div>
