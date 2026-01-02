@@ -7,16 +7,15 @@
 	import { api } from '$lib/api';
 	import { UserState, USER_KEY } from '$lib/user.svelte';
 
-	let { children } = $props(); // Svelte 5 props rune
-	const userState = new UserState(); // 使用包含 $state 的 UserState 類別
+	let { children } = $props();
+	const userState = new UserState()
 
 	setContext(USER_KEY, userState);
 
-	// 修改為 async 函式以處理跳轉
 	async function handleLogout() {
 		try {
-			await userState.logout(); // 等待後端登出 API 完成
-			await goto(`${base}/`);   // 自動跳轉至主頁面
+			await userState.logout();
+			await goto(`${base}/`);
 		} catch (err) {
 			console.error(err);
 		}
@@ -24,10 +23,9 @@
 
 	onMount(async () => {
 		try {
-			const res = await api.user.me(); // 初始化時獲取使用者狀態
+			const res = await api.user.me();
 			userState.update(res.data);
 		} catch (_err) {
-			// 未登入狀態不需額外處理
 		}
 	});
 </script>
