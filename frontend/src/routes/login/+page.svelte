@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount, getContext } from 'svelte';
-	import { fly } from 'svelte/transition';
-	import {base} from '$app/paths';
+	import { fly,fade } from 'svelte/transition';
+	import { base } from '$app/paths';
 	import { resolve } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { api } from '$lib/api';
@@ -14,10 +14,11 @@
 	let showPassword = $state(false);
 	let isLoading = $state(false);
 	let isNavigating = $state(false);
+	let errorMessage = $state('');
 
 	async function handleSubmit(e: Event) {
 		e.preventDefault();
-
+		errorMessage = '';
 		if (!username || !password) return;
 
 		isLoading = true;
@@ -26,6 +27,7 @@
 			userState.update(res.data);
 			window.location.href = `${base}/`;
 		} catch (err) {
+			errorMessage = '帳號或密碼錯誤，請稍後再試';
 			console.error('登入失敗:', err);
 		} finally {
 			isLoading = false;
@@ -147,6 +149,23 @@
 						</button>
 					</div>
 				</div>
+
+				{#if errorMessage}
+					<div
+						transition:fade={{ duration: 200 }}
+						class="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-400"
+					>
+						<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
+						</svg>
+						{errorMessage}
+					</div>
+				{/if}
 
 				<button
 					type="submit"
