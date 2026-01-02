@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, getContext } from 'svelte';
 	import { fly } from 'svelte/transition';
+	import {base} from '$app/paths';
 	import { resolve } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { api } from '$lib/api';
@@ -17,19 +18,15 @@
 	async function handleSubmit(e: Event) {
 		e.preventDefault();
 
-		if (!username || !password) {
-			return;
-		}
+		if (!username || !password) return;
 
 		isLoading = true;
 		try {
 			const res = await api.auth.login({ username, password });
-
 			userState.update(res.data);
-			isNavigating = true;
-			await goto('/');
+			window.location.href = `${base}/`;
 		} catch (err) {
-			console.error(err);
+			console.error('登入失敗:', err);
 		} finally {
 			isLoading = false;
 		}
