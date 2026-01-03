@@ -9,6 +9,5 @@ Dockerfile
 .python-version
 .env
 .env.*
-uv.lock
 README.md
 *.sqlite*
