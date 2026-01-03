@@ -2,8 +2,11 @@ import { error } from '@sveltejs/kit';
 import { marked } from 'marked';
 import DOMPurify from 'isomorphic-dompurify';
 import { api } from '$lib/api.js';
+import type { PageLoad } from './$types';
 
-export const load = async ({ params }) => {
+export const ssr = false;
+
+export const load: PageLoad = async ({ params }) => {
 	const postId = Number(params.id);
 
 	if (isNaN(postId) || !Number.isInteger(postId)) {
