@@ -1,6 +1,8 @@
 import { api } from '$lib/api';
 import type { PageLoad } from './$types';
 
+export const ssr = false;
+
 export const load: PageLoad = async ({ url }) => {
 	try {
 		const page = Number(url.searchParams.get('page') ?? '0');
